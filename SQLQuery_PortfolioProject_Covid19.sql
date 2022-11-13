@@ -120,7 +120,6 @@ AS
 (
 SELECT cdea.continent, cdea.location, cdea.date, cdea.population, cvac.new_vaccinations, 
        SUM(CONVERT(bigint, cvac.new_vaccinations)) OVER (PARTITION BY cdea.location ORDER BY cdea.location, cdea.date) AS RollingVacCounts
-	   --NOW TO CONVERT THIS INTO PERCENTAGE I WILL CREATE BOTH CTE AND TEMP TABLE 
 FROM PortfolioProject..Covid_deaths  cdea
  JOIN PortfolioProject..Covid_vaccinations cvac
   ON cdea.location = cvac.location
@@ -149,8 +148,7 @@ RollingVacCounts numeric
 )
 INSERT INTO #vacpopulation
 SELECT cdea.continent, cdea.location, cdea.date, cdea.population, cvac.new_vaccinations, 
-       SUM(CONVERT(bigint, cvac.new_vaccinations)) OVER (PARTITION BY cdea.location ORDER BY cdea.location, cdea.date) AS RollingVacCounts
-	   --NOW TO CONVERT THIS INTO PERCENTAGE I WILL CREATE BOTH CTE AND TEMP TABLE 
+       SUM(CONVERT(bigint, cvac.new_vaccinations)) OVER (PARTITION BY cdea.location ORDER BY cdea.location, cdea.date) AS RollingVacCounts 
 FROM PortfolioProject..Covid_deaths  cdea
  JOIN PortfolioProject..Covid_vaccinations cvac
   ON cdea.location = cvac.location
